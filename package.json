@@ -1,0 +1,16 @@
+{
+  "name": "pe",
+  "description": "Yet another try at an EMR application",
+  "version": "0.1.0",
+  "maintainers": [
+    {
+      "name": "Igor Padoim",
+      "email": "igorpadoim@gmail.com",
+      "web": "https://nereare.com/"
+    }
+  ],
+  "bugs": {
+    "web": "https://github.com/Nereare/pe/issues"
+  },
+  "license": "Hippocratic-3"
+}
