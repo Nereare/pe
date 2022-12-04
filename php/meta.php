@@ -1,6 +1,6 @@
 <?php
 define("APP_NAME",          "Electronic Medical Register - PE");
-define("APP_REPO",          "https://github.com/Nereare/Grimoire");
+define("APP_REPO",          "https://github.com/Nereare/pe");
 define("APP_AUTHOR",        "Igor Padoim");
 define("APP_YEAR",          "2022");
 define("APP_BIRTHDAY",      "2022-12-02");
