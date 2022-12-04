@@ -1,4 +1,4 @@
-# Prontuário Eletrônico
+# Electronic Medical Register - PE
 
 [![GitHub package.json version](https://img.shields.io/github/package-json/v/Nereare/pe)](https://github.com/Nereare/pe)
 [![License](https://img.shields.io/github/license/Nereare/pe.svg)](LICENSE.md)
