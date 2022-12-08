@@ -123,7 +123,7 @@ unset($notInstalled);
       <nav class="navbar">
         <div class="container">
           <div class="navbar-brand">
-            <a class="navbar-item">
+            <a class="navbar-item" href="./">
               <img src="assets/White-Icon.svg" alt="Logo">
             </a>
             <span class="navbar-burger">
@@ -134,21 +134,15 @@ unset($notInstalled);
           </div>
           <div class="navbar-menu">
             <div class="navbar-end">
-              <a class="navbar-item is-active">
+              <a class="navbar-item">
                 Home
               </a>
-              <a class="navbar-item">
-                Examples
-              </a>
-              <a class="navbar-item">
-                Documentation
-              </a>
               <span class="navbar-item">
-                <a class="button is-info is-inverted">
+                <a class="button is-info is-inverted" id="show-login-form">
                   <span class="icon">
-                    <i class="mdi mdi-github mdi-24px"></i>
+                    <i class="mdi mdi-account mdi-24px"></i>
                   </span>
-                  <span>Download</span>
+                  <span>Login</span>
                 </a>
               </span>
             </div>
@@ -174,18 +168,6 @@ unset($notInstalled);
             </li>
             <li>
               <a>Modifiers</a>
-            </li>
-            <li>
-              <a>Grid</a>
-            </li>
-            <li>
-              <a>Elements</a>
-            </li>
-            <li>
-              <a>Components</a>
-            </li>
-            <li>
-              <a>Layout</a>
             </li>
           </ul>
         </div>
