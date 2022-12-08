@@ -9,6 +9,7 @@ $green-blue-crayola : #1982c4;
 $true-blue          : #4267ac;
 // Bulma variables
 $family-sans-serif : "Montserrat", sans-serif;
+$family-monospace  : "Roboto Mono", monospace;
 $primary           : $true-blue;
 $success           : $yellow-green;
 $info              : $green-blue-crayola;
@@ -22,6 +23,7 @@ $warning           : $sunglow;
 @import "../node_modules/@creativebulma/bulma-divider/dist/bulma-divider.min.css";
 
 html, body { text-align: justify; }
+input, select, option, textarea { font-family: $family-monospace; }
 
 .navbar-burger { color: $white; }
 .navbar-menu { text-align: center; }
