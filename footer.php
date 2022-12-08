@@ -1,9 +1,9 @@
-    <footer class="footer">
+    <footer class="footer pt-3 pb-4">
       <div class="content has-text-centered">
-        <p>
-          <strong><?php echo $title; ?></strong> by <a href="mailto:<?php echo constant( "INSTANCE_ADMIN_EMAIL" ); ?>"><?php echo constant( "INSTANCE_ADMIN_NAME" ); ?></a>
+        <p class="mb-2">
+          <strong><?php echo $title; ?></strong>
         </p>
-        <p>
+        <p class="is-size-7">
           <a href="<?php echo constant("APP_REPO"); ?>">
             <?php echo constant("APP_NAME"); ?>
           </a>
@@ -64,5 +64,6 @@
       <button class="delete"></button>
       <p>Foo</p>
     </div>
-  </body>
-</html>
+    </body>
+
+    </html>
