@@ -26,7 +26,7 @@
           <p class="modal-card-title">
             <span class="icon-text">
               <span class="icon">
-                <i class="mdi mdi-account"></i>
+                <i class="mdi mdi-login-variant"></i>
               </span>
               <span>Login</span>
             </span>
@@ -35,21 +35,21 @@
 
         <section class="modal-card-body">
           <div class="field">
-            <p class="control has-icons-left">
+            <div class="control has-icons-left">
               <input type="text" class="input is-medium" id="login-username" placeholder="Username">
               <span class="icon is-left">
                 <i class="mdi mdi-account"></i>
               </span>
-            </p>
+            </div>
           </div>
 
           <div class="field">
-            <p class="control has-icons-left">
+            <div class="control has-icons-left">
               <input type="password" class="input is-medium" id="login-password" placeholder="Password">
               <span class="icon is-left">
                 <i class="mdi mdi-lock"></i>
               </span>
-            </p>
+            </div>
           </div>
         </section>
 
