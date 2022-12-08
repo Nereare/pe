@@ -25,13 +25,15 @@ final class MyRole {
   const PROCEDURE_DOER = \Delight\Auth\Role::TRANSLATOR;
   const SURGERY = \Delight\Auth\Role::CONSUMER;
 
+  // Access Role
+  const PATIENT = \Delight\Auth\Role::MAINTAINER;
+
   /*
    * Unused `\Delight\Auth\Role::*` constants:
    * --
    * COORDINATOR
    * DEVELOPER
    * EDITOR
-   * MAINTAINER
    * MODERATOR
    * PUBLISHER
    * REVIEWER
