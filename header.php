@@ -25,7 +25,7 @@ if (is_readable("php/config.php")) {
 }
 
 // Load Auth and Parsedown only if installed
-if (!isset($notInstalled)) {
+if ( !isset($notInstalled) ) {
   $auth = new \Delight\Auth\Auth($db);
   $md   = new Parsedown();
   $md->setSafeMode(true);
@@ -35,8 +35,9 @@ if (!isset($notInstalled)) {
 if (!isset($group)) {
   $group = null;
 }
-// TODO: Delete me!
-unset($notInstalled);
+
+var_dump( $db );
+var_dump( $auth );
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
