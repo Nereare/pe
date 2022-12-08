@@ -59,13 +59,25 @@ CREATE TABLE IF NOT EXISTS `users_throttling` (
 );
 
 CREATE TABLE IF NOT EXISTS `users_profiles` (
-  `id`          INT UNSIGNED NOT NULL,
-  `first_name`  VARCHAR(127) DEFAULT NULL,
-  `last_name`   VARCHAR(255) DEFAULT NULL,
-  `birth`       DATE DEFAULT NULL,
-  `cv`          VARCHAR(255) DEFAULT NULL,
-  `register_type` VARCHAR(16) NOT NULL,
-  `register_location` VARCHAR(16) NOT NULL,
-  `register_id` INT UNSIGNED NOT NULL,
+  `id`                 INT UNSIGNED NOT NULL,
+  `first_name`         VARCHAR(127) NOT NULL,
+  `last_name`          VARCHAR(255) NOT NULL,
+  `birth`              DATE NOT NULL,
+  `register_type`      VARCHAR(16) NOT NULL,
+  `register_location`  VARCHAR(16) NOT NULL,
+  `register_id`        VARCHAR(16) NOT NULL,
+  `cv`                 VARCHAR(255) DEFAULT NULL,
+  `homepage`           VARCHAR(255) DEFAULT NULL,
+  `email`              VARCHAR(64) DEFAULT NULL,
+  `phone`              VARCHAR(64) DEFAULT NULL,
+  `facebook`           VARCHAR(64) DEFAULT NULL,
+  `youtube`            VARCHAR(64) DEFAULT NULL,
+  `instagram`          VARCHAR(64) DEFAULT NULL,
+  `tiktok`             VARCHAR(64) DEFAULT NULL,
+  `telegram`           VARCHAR(64) DEFAULT NULL,
+  `pinterest`          VARCHAR(64) DEFAULT NULL,
+  `twitter`            VARCHAR(64) DEFAULT NULL,
+  `reddit`             VARCHAR(64) DEFAULT NULL,
+  `linkedin`           VARCHAR(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
