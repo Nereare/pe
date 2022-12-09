@@ -1,42 +1,39 @@
-# Electronic Medical Register - PE
+# Prontuário Eletrônico
 
 [![GitHub package.json version](https://img.shields.io/github/package-json/v/Nereare/pe)](https://github.com/Nereare/pe)
-[![License](https://img.shields.io/github/license/Nereare/pe.svg)](LICENSE.md)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE-OF-CONDUCT.md)
+[![Hippocratic License HL3-FULL](https://img.shields.io/static/v1?label=Hippocratic%20License&message=HL3-FULL&labelColor=5e2751&color=bc8c3d)](https://firstdonoharm.dev/version/3/0/full.html)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](https://www.contributor-covenant.org/pt-br/version/2/0/code_of_conduct/)
 
-Yet another try at an EMR application.
+Mais uma tentativa em criar um aplicativo de registro eletrônico de prontuários em saúde.
 
-## Installing
+## Instalação
 
 <!--
-TODO Set installation instructions
-BODY If there is some installation method, define it on the [README file](README.md).
+TODO: Set installation instructions
 -->
 1. Foo.
 
-## Contributing
+## Contribuindo
 
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :tada:
+1. Clone o repositório;
+2. Edite para suas necessidades;
+3. Submeta uma *pull request*;
+4. Feito! :smile:
 
-Please, also read our [Contributing Guidelines](CONTRIBUTING.md).
+Por favor, leia nossas [Diretrizes de Contribuição](CONTRIBUTING.md).
 
-### Code of Conduct
+### Código de Conduta
 
-Please note that this project is released with a [Contributor Code of Conduct](CODE-OF-CONDUCT.md).
+Note que este projeto é distribuído com o [Código de Conduta *Contributor*](CODE-OF-CONDUCT.md). Ao participar neste projeto, você concorda em seguir e respeitar esses termos.
 
-By participating in this project you agree to abide by its terms.
+## História e Versionamento
 
-## History & Versioning
+Veja o [Changelog](CHANGELOG.md) para a história de modificações completa.
 
-See the [Change Log](CHANGELOG.md) for further history.
+Este projeto usa [SemVer](http://semver.org/) para versionamento. Para as versões disponíveis, veja as [tags do repositório](https://github.com/Nereare/modelos-pront/tags).
 
-This project uses [SemVer](http://semver.org/) for versioning. For the versions
-available, see the [tags on this repository](https://github.com/Nereare/pe/tags).
+## Licença
 
-## License
+[![Hippocratic License](https://i.imgur.com/DEKS3nm.png)](LICENSE.md)
 
-This project is available under the [Hippocratic License](https://firstdonoharm.dev/).
+Este projeto está disponível sob a [Licença Hipocrática HL3-FULL](https://firstdonoharm.dev/).

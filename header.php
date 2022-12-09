@@ -25,14 +25,14 @@ if (is_readable("php/config.php")) {
 }
 
 // Load Auth and Parsedown only if installed
-if ( !isset($notInstalled) ) {
+if (!isset($notInstalled)) {
   $auth = new \Delight\Auth\Auth($db);
   $md   = new Parsedown();
   $md->setSafeMode(true);
 }
 ?>
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="pt_BR">
 
 <head>
   <meta charset="UTF-8">
@@ -49,7 +49,7 @@ if ( !isset($notInstalled) ) {
   <meta name="msapplication-TileColor" content="#4267ac">
   <meta name="msapplication-TileImage" content="assets/favicon/mstile-144x144.png">
   <meta name="msapplication-config" content="assets/favicon/browserconfig.xml">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#4267ac">
 
   <title><?php echo $title; ?></title>
 
@@ -89,16 +89,16 @@ if ( !isset($notInstalled) ) {
                     <span class="icon">
                       <i class="mdi mdi-alert-circle"></i>
                     </span>
-                    <span>Oopsie...</span>
+                    <span>Opa...</span>
                   </span>
                 </h2>
 
                 <div class="content">
                   <p>
-                    We apologize for the inconvenience, but it seems this application is not yet installed.
+                    Pedimos perdão pela inconveniência, mas parece que este aplicativo ainda não está instalado.
                   </p>
                   <p>
-                    Please, contact the domain manager for further information.
+                    Por favor, entre em contato com a gerência do domínio para mais informações.
                   </p>
                 </div>
               </div>
@@ -133,9 +133,9 @@ if ( !isset($notInstalled) ) {
               <span class="navbar-item">
                 <a class="button is-info is-inverted" id="show-login-form">
                   <span class="icon">
-                    <i class="mdi mdi-account mdi-24px"></i>
+                    <i class="mdi mdi-login-variant mdi-24px"></i>
                   </span>
-                  <span>Login</span>
+                  <span>Entrar</span>
                 </a>
               </span>
             </div>

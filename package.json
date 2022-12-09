@@ -1,6 +1,6 @@
 {
   "name": "pe",
-  "description": "Yet another try at an EMR application",
+  "description": "Mais uma tentativa em criar um aplicativo de registro eletrônico de prontuários em saúde",
   "version": "0.1.0",
   "author": {
     "name": "Igor Padoim",
@@ -10,7 +10,7 @@
   "bugs": {
     "web": "https://github.com/Nereare/pe/issues"
   },
-  "license": "Hippocratic-3",
+  "license": "HL3-FULL",
   "main": "index.html",
   "repository": "https://github.com/Nereare/pe.git",
   "private": false,

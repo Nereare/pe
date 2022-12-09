@@ -11,7 +11,7 @@
           <?php echo constant("APP_YEAR"); ?>
           <?php echo constant("APP_AUTHOR"); ?>
           &bull;
-          Licensed under the
+          Distribuido sob a
           <a href="<?php echo constant("APP_LICENSE_URI"); ?>">
             <?php echo constant("APP_LICENSE_NAME"); ?>
           </a>
@@ -28,7 +28,7 @@
               <span class="icon">
                 <i class="mdi mdi-login-variant"></i>
               </span>
-              <span>Login</span>
+              <span>Entrar</span>
             </span>
           </p>
         </header>
