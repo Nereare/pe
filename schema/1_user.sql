@@ -66,6 +66,8 @@ CREATE TABLE IF NOT EXISTS `users_profiles` (
   `register_type`      VARCHAR(16) NOT NULL,
   `register_location`  VARCHAR(16) NOT NULL,
   `register_id`        VARCHAR(16) NOT NULL,
+  `short_about`        TINYTEXT,
+  `about`              TEXT,
   `cv`                 VARCHAR(255) DEFAULT NULL,
   `homepage`           VARCHAR(255) DEFAULT NULL,
   `email`              VARCHAR(64) DEFAULT NULL,

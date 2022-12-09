@@ -126,6 +126,8 @@ final class Profile {
                           $register_type,
                           $register_location,
                           $register_id,
+                          $short_about = null,
+                          $about = null,
                           $cv = null,
                           $homepage = null,
                           $email = null,
@@ -146,16 +148,18 @@ final class Profile {
     try {
       $stmt = $this->db->prepare(
         "INSERT INTO `users_profiles`
-          (`id`, `first_name`, `last_name`, `birth`, `register_type`, `register_location`, `register_id`, `cv`, `homepage`, `email`, `phone`, `facebook`, `youtube`, `instagram`, `tiktok`, `telegram`, `pinterest`, `twitter`, `reddit`, `linkedin`)
-          VALUES (:uid, :first_name, :last_name, :birth, :register_type, :register_location, :register_id, :cv, :homepage, :email, :phone, :facebook, :youtube, :instagram, :tiktok, :telegram, :pinterest, :twitter, :reddit, :linkedin)"
+          (`id`, `first_name`, `last_name`, `birth`, `register_type`, `register_location`, `register_id`, `short_about`, `about`, `cv`, `homepage`, `email`, `phone`, `facebook`, `youtube`, `instagram`, `tiktok`, `telegram`, `pinterest`, `twitter`, `reddit`, `linkedin`)
+          VALUES (:uid, :first_name, :last_name, :birth, :register_type, :register_location, :register_id, :short_about, :about, :cv, :homepage, :email, :phone, :facebook, :youtube, :instagram, :tiktok, :telegram, :pinterest, :twitter, :reddit, :linkedin)"
       );
-      $stmt->bindParam(":uid", $this->uid);
+      $stmt->bindParam(":uid", $this->uid, \PDO::PARAM_INT);
       $stmt->bindParam(":first_name", $first_name);
       $stmt->bindParam(":last_name", $last_name);
       $stmt->bindParam(":birth", $birth);
       $stmt->bindParam(":register_type", $register_type);
       $stmt->bindParam(":register_location", $register_location);
-      $stmt->bindParam(":register_id", $register_id);
+      $stmt->bindParam(":register_id", $register_id, \PDO::PARAM_INT);
+      $stmt->bindParam(":short_about", $short_about);
+      $stmt->bindParam(":about", $about);
       $stmt->bindParam(":cv", $cv);
       $stmt->bindParam(":homepage", $homepage);
       $stmt->bindParam(":email", $email);
@@ -180,15 +184,14 @@ final class Profile {
   /***********************************************************************/
 
   /**
-   * Retrieves the first name of the user..
+   * Retrieves the first name of the user.
    *
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The first name of the user..
+   * @return string        The first name of the user.
    */
-  public function getFirstName()
-  {
+  public function getFirstName() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -198,29 +201,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["first_name"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
-   * Sets a new value to the first name of the user..
+   * Sets a new value to the first name of the user.
    *
-   * @param  string $new_value  The new first name of the user..
+   * @param  string $new_value  The new first name of the user.
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setFirstName($new_value)
-  {
+  public function setFirstName($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -231,24 +227,19 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 
   /**
-   * Retrieves the last (and possibly middle) name/s of the user..
+   * Retrieves the last (and possibly middle) name/s of the user.
    *
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The last (and possibly middle) name/s of the user..
+   * @return string        The last (and possibly middle) name/s of the user.
    */
-  public function getLastName()
-  {
+  public function getLastName() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -258,29 +249,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["last_name"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
-   * Sets a new value to the last (and possibly middle) name/s of the user..
+   * Sets a new value to the last (and possibly middle) name/s of the user.
    *
-   * @param  string $new_value  The new last (and possibly middle) name/s of the user..
+   * @param  string $new_value  The new last (and possibly middle) name/s of the user.
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setLastName($new_value)
-  {
+  public function setLastName($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -291,24 +275,19 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 
   /**
-   * Retrieves the date of birth, use the ISO 8601 format..
+   * Retrieves the date of birth, use the ISO 8601 format.
    *
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The date of birth, use the ISO 8601 format..
+   * @return string        The date of birth, use the ISO 8601 format.
    */
-  public function getBirth()
-  {
+  public function getBirth() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -318,29 +297,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["birth"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
-   * Sets a new value to the date of birth, use the ISO 8601 format..
+   * Sets a new value to the date of birth, use the ISO 8601 format.
    *
-   * @param  string $new_value  The new date of birth, use the ISO 8601 format..
+   * @param  string $new_value  The new date of birth, use the ISO 8601 format.
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setBirth($new_value)
-  {
+  public function setBirth($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -351,12 +323,8 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 
   /**
@@ -365,10 +333,9 @@ final class Profile {
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The registration type (e.g. CRM, COREN, RG, CPF.).
+   * @return string        The registration type (e.g. CRM, COREN, RG, CPF.).
    */
-  public function getRegisterType()
-  {
+  public function getRegisterType() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -378,29 +345,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["register_type"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
    * Sets a new value to the registration type (e.g. CRM, COREN, RG, CPF.).
    *
    * @param  string $new_value  The new registration type (e.g. CRM, COREN, RG, CPF.).
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setRegisterType($new_value)
-  {
+  public function setRegisterType($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -411,12 +371,8 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 
   /**
@@ -425,10 +381,9 @@ final class Profile {
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The state from which the register comes (e.g. ES, BA, RN, AM.).
+   * @return string        The state from which the register comes (e.g. ES, BA, RN, AM.).
    */
-  public function getRegisterLocation()
-  {
+  public function getRegisterLocation() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -438,29 +393,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["register_location"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
    * Sets a new value to the state from which the register comes (e.g. ES, BA, RN, AM.).
    *
    * @param  string $new_value  The new state from which the register comes (e.g. ES, BA, RN, AM.).
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setRegisterLocation($new_value)
-  {
+  public function setRegisterLocation($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -471,24 +419,19 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 
   /**
-   * Retrieves the number/ID of the register..
+   * Retrieves the number/ID of the register.
    *
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The number/ID of the register..
+   * @return string        The number/ID of the register.
    */
-  public function getRegisterID()
-  {
+  public function getRegisterID() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -498,29 +441,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["register_id"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
-   * Sets a new value to the number/ID of the register..
+   * Sets a new value to the number/ID of the register.
    *
-   * @param  string $new_value  The new number/ID of the register..
+   * @param  string $new_value  The new number/ID of the register.
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setRegisterID($new_value)
-  {
+  public function setRegisterID($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -531,24 +467,115 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 
   /**
-   * Retrieves the user's curriculum vitae. This is an optional data..
+   * Retrieves the short version of the user's about. This is an optional data.
    *
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The user's curriculum vitae. This is an optional data..
+   * @return string        The short version of the user's about. This is an optional data.
    */
-  public function getCV()
-  {
+  public function getShortAbout() {
+    if ($this->profile_created) {
+      try {
+        $stmt = $this->db->prepare(
+          "SELECT `short_about` FROM `users_profiles`
+            WHERE `id` LIKE :uid"
+        );
+        $stmt->bindParam(":uid", $this->uid);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        if (!$result) { return false; }
+        return $result["short_about"];
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
+  }
+  /**
+   * Sets a new value to the short version of the user's about. This is an optional data.
+   *
+   * @param  string $new_value  The new short version of the user's about. This is an optional data.
+   *
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
+   *
+   * @return void
+   */
+  public function setShortAbout($new_value) {
+    if ($this->profile_created) {
+      try {
+        $stmt = $this->db->prepare(
+          "UPDATE `users_profiles` SET
+            `short_about` = :new_value
+            WHERE `id` = :uid"
+        );
+        $stmt->bindParam(":uid", $this->uid);
+        $stmt->bindParam(":new_value", $new_value);
+        $stmt->execute();
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
+  }
+
+  /**
+   * Retrieves the user's about. This is an optional data.
+   *
+   * @throws PDOException  Thrown on query execution errors/exceptions.
+   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   *
+   * @return string        The user's about. This is an optional data.
+   */
+  public function getAbout() {
+    if ($this->profile_created) {
+      try {
+        $stmt = $this->db->prepare(
+          "SELECT `about` FROM `users_profiles`
+            WHERE `id` LIKE :uid"
+        );
+        $stmt->bindParam(":uid", $this->uid);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        if (!$result) { return false; }
+        return $result["about"];
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
+  }
+  /**
+   * Sets a new value to the user's about. This is an optional data.
+   *
+   * @param  string $new_value  The new user's about. This is an optional data.
+   *
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
+   *
+   * @return void
+   */
+  public function setAbout($new_value) {
+    if ($this->profile_created) {
+      try {
+        $stmt = $this->db->prepare(
+          "UPDATE `users_profiles` SET
+            `about` = :new_value
+            WHERE `id` = :uid"
+        );
+        $stmt->bindParam(":uid", $this->uid);
+        $stmt->bindParam(":new_value", $new_value);
+        $stmt->execute();
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
+  }
+
+  /**
+   * Retrieves the user's curriculum vitae. This is an optional data.
+   *
+   * @throws PDOException  Thrown on query execution errors/exceptions.
+   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   *
+   * @return string        The user's curriculum vitae. This is an optional data.
+   */
+  public function getCV() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -558,29 +585,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["cv"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
-   * Sets a new value to the user's curriculum vitae. This is an optional data..
+   * Sets a new value to the user's curriculum vitae. This is an optional data.
    *
-   * @param  string $new_value  The new user's curriculum vitae. This is an optional data..
+   * @param  string $new_value  The new user's curriculum vitae. This is an optional data.
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setCV($new_value)
-  {
+  public function setCV($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -591,24 +611,19 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 
   /**
-   * Retrieves the user's website home page. This is an optional data..
+   * Retrieves the user's website home page. This is an optional data.
    *
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The user's website home page. This is an optional data..
+   * @return string        The user's website home page. This is an optional data.
    */
-  public function getHomepage()
-  {
+  public function getHomepage() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -618,29 +633,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["homepage"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
-   * Sets a new value to the user's website home page. This is an optional data..
+   * Sets a new value to the user's website home page. This is an optional data.
    *
-   * @param  string $new_value  The new user's website home page. This is an optional data..
+   * @param  string $new_value  The new user's website home page. This is an optional data.
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setHomepage($new_value)
-  {
+  public function setHomepage($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -651,24 +659,19 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 
   /**
-   * Retrieves the email of the user. This is an optional data..
+   * Retrieves the email of the user. This is an optional data.
    *
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The email of the user. This is an optional data..
+   * @return string        The email of the user. This is an optional data.
    */
-  public function getEmail()
-  {
+  public function getEmail() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -678,29 +681,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["email"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
-   * Sets a new value to the email of the user. This is an optional data..
+   * Sets a new value to the email of the user. This is an optional data.
    *
-   * @param  string $new_value  The new email of the user. This is an optional data..
+   * @param  string $new_value  The new email of the user. This is an optional data.
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setEmail($new_value)
-  {
+  public function setEmail($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -711,24 +707,19 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 
   /**
-   * Retrieves the phone number of the user. This is an optional data..
+   * Retrieves the phone number of the user. This is an optional data.
    *
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The phone number of the user. This is an optional data..
+   * @return string        The phone number of the user. This is an optional data.
    */
-  public function getPhone()
-  {
+  public function getPhone() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -738,29 +729,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["phone"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
-   * Sets a new value to the phone number of the user. This is an optional data..
+   * Sets a new value to the phone number of the user. This is an optional data.
    *
-   * @param  string $new_value  The new phone number of the user. This is an optional data..
+   * @param  string $new_value  The new phone number of the user. This is an optional data.
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setPhone($new_value)
-  {
+  public function setPhone($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -771,24 +755,19 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 
   /**
-   * Retrieves the user's username/tag in this social network. This is an optional data..
+   * Retrieves the user's username/tag in this social network. This is an optional data.
    *
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The user's username/tag in this social network. This is an optional data..
+   * @return string        The user's username/tag in this social network. This is an optional data.
    */
-  public function getFacebook()
-  {
+  public function getFacebook() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -798,29 +777,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["facebook"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
-   * Sets a new value to the user's username/tag in this social network. This is an optional data..
+   * Sets a new value to the user's username/tag in this social network. This is an optional data.
    *
-   * @param  string $new_value  The new user's username/tag in this social network. This is an optional data..
+   * @param  string $new_value  The new user's username/tag in this social network. This is an optional data.
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setFacebook($new_value)
-  {
+  public function setFacebook($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -831,24 +803,19 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 
   /**
-   * Retrieves the user's username/tag in this social network. This is an optional data..
+   * Retrieves the user's username/tag in this social network. This is an optional data.
    *
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The user's username/tag in this social network. This is an optional data..
+   * @return string        The user's username/tag in this social network. This is an optional data.
    */
-  public function getYouTube()
-  {
+  public function getYouTube() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -858,29 +825,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["youtube"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
-   * Sets a new value to the user's username/tag in this social network. This is an optional data..
+   * Sets a new value to the user's username/tag in this social network. This is an optional data.
    *
-   * @param  string $new_value  The new user's username/tag in this social network. This is an optional data..
+   * @param  string $new_value  The new user's username/tag in this social network. This is an optional data.
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setYouTube($new_value)
-  {
+  public function setYouTube($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -891,24 +851,19 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 
   /**
-   * Retrieves the user's username/tag in this social network. This is an optional data..
+   * Retrieves the user's username/tag in this social network. This is an optional data.
    *
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The user's username/tag in this social network. This is an optional data..
+   * @return string        The user's username/tag in this social network. This is an optional data.
    */
-  public function getInstagram()
-  {
+  public function getInstagram() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -918,29 +873,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["instagram"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
-   * Sets a new value to the user's username/tag in this social network. This is an optional data..
+   * Sets a new value to the user's username/tag in this social network. This is an optional data.
    *
-   * @param  string $new_value  The new user's username/tag in this social network. This is an optional data..
+   * @param  string $new_value  The new user's username/tag in this social network. This is an optional data.
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setInstagram($new_value)
-  {
+  public function setInstagram($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -951,24 +899,19 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 
   /**
-   * Retrieves the user's username/tag in this social network. This is an optional data..
+   * Retrieves the user's username/tag in this social network. This is an optional data.
    *
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The user's username/tag in this social network. This is an optional data..
+   * @return string        The user's username/tag in this social network. This is an optional data.
    */
-  public function getTikTok()
-  {
+  public function getTikTok() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -978,29 +921,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["tiktok"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
-   * Sets a new value to the user's username/tag in this social network. This is an optional data..
+   * Sets a new value to the user's username/tag in this social network. This is an optional data.
    *
-   * @param  string $new_value  The new user's username/tag in this social network. This is an optional data..
+   * @param  string $new_value  The new user's username/tag in this social network. This is an optional data.
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setTikTok($new_value)
-  {
+  public function setTikTok($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -1011,24 +947,19 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 
   /**
-   * Retrieves the user's username/tag in this social network. This is an optional data..
+   * Retrieves the user's username/tag in this social network. This is an optional data.
    *
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The user's username/tag in this social network. This is an optional data..
+   * @return string        The user's username/tag in this social network. This is an optional data.
    */
-  public function getTelegram()
-  {
+  public function getTelegram() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -1038,29 +969,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["telegram"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
-   * Sets a new value to the user's username/tag in this social network. This is an optional data..
+   * Sets a new value to the user's username/tag in this social network. This is an optional data.
    *
-   * @param  string $new_value  The new user's username/tag in this social network. This is an optional data..
+   * @param  string $new_value  The new user's username/tag in this social network. This is an optional data.
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setTelegram($new_value)
-  {
+  public function setTelegram($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -1071,24 +995,19 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 
   /**
-   * Retrieves the user's username/tag in this social network. This is an optional data..
+   * Retrieves the user's username/tag in this social network. This is an optional data.
    *
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The user's username/tag in this social network. This is an optional data..
+   * @return string        The user's username/tag in this social network. This is an optional data.
    */
-  public function getPinterest()
-  {
+  public function getPinterest() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -1098,29 +1017,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["pinterest"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
-   * Sets a new value to the user's username/tag in this social network. This is an optional data..
+   * Sets a new value to the user's username/tag in this social network. This is an optional data.
    *
-   * @param  string $new_value  The new user's username/tag in this social network. This is an optional data..
+   * @param  string $new_value  The new user's username/tag in this social network. This is an optional data.
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setPinterest($new_value)
-  {
+  public function setPinterest($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -1131,24 +1043,19 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 
   /**
-   * Retrieves the user's username/tag in this social network. This is an optional data..
+   * Retrieves the user's username/tag in this social network. This is an optional data.
    *
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The user's username/tag in this social network. This is an optional data..
+   * @return string        The user's username/tag in this social network. This is an optional data.
    */
-  public function getTwitter()
-  {
+  public function getTwitter() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -1158,29 +1065,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["twitter"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
-   * Sets a new value to the user's username/tag in this social network. This is an optional data..
+   * Sets a new value to the user's username/tag in this social network. This is an optional data.
    *
-   * @param  string $new_value  The new user's username/tag in this social network. This is an optional data..
+   * @param  string $new_value  The new user's username/tag in this social network. This is an optional data.
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setTwitter($new_value)
-  {
+  public function setTwitter($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -1191,24 +1091,19 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 
   /**
-   * Retrieves the user's username/tag in this social network. This is an optional data..
+   * Retrieves the user's username/tag in this social network. This is an optional data.
    *
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The user's username/tag in this social network. This is an optional data..
+   * @return string        The user's username/tag in this social network. This is an optional data.
    */
-  public function getReddit()
-  {
+  public function getReddit() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -1218,29 +1113,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["reddit"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
-   * Sets a new value to the user's username/tag in this social network. This is an optional data..
+   * Sets a new value to the user's username/tag in this social network. This is an optional data.
    *
-   * @param  string $new_value  The new user's username/tag in this social network. This is an optional data..
+   * @param  string $new_value  The new user's username/tag in this social network. This is an optional data.
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setReddit($new_value)
-  {
+  public function setReddit($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -1251,24 +1139,19 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 
   /**
-   * Retrieves the user's username/tag in this social network. This is an optional data..
+   * Retrieves the user's username/tag in this social network. This is an optional data.
    *
    * @throws PDOException  Thrown on query execution errors/exceptions.
    * @throws Exception     Thrown when calling this method on a user with no profile created.
    *
-   * @return string  The user's username/tag in this social network. This is an optional data..
+   * @return string        The user's username/tag in this social network. This is an optional data.
    */
-  public function getLinkedIn()
-  {
+  public function getLinkedIn() {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -1278,29 +1161,22 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (!$result) {
-          return false;
-        }
+        if (!$result) { return false; }
         return $result["linkedin"];
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to get data from.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
   }
   /**
-   * Sets a new value to the user's username/tag in this social network. This is an optional data..
+   * Sets a new value to the user's username/tag in this social network. This is an optional data.
    *
-   * @param  string $new_value  The new user's username/tag in this social network. This is an optional data..
+   * @param  string $new_value  The new user's username/tag in this social network. This is an optional data.
    *
-   * @throws PDOException  Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
-   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
    *
    * @return void
    */
-  public function setLinkedIn($new_value)
-  {
+  public function setLinkedIn($new_value) {
     if ($this->profile_created) {
       try {
         $stmt = $this->db->prepare(
@@ -1311,11 +1187,7 @@ final class Profile {
         $stmt->bindParam(":uid", $this->uid);
         $stmt->bindParam(":new_value", $new_value);
         $stmt->execute();
-      } catch (\PDOException $e) {
-        throw new \PDOException("Database execution error.");
-      }
-    } else {
-      throw new \Exception("No profile created to change data in.");
-    }
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
   }
 }
