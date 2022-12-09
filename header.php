@@ -30,14 +30,6 @@ if ( !isset($notInstalled) ) {
   $md   = new Parsedown();
   $md->setSafeMode(true);
 }
-
-// Parse if there is a group set
-if (!isset($group)) {
-  $group = null;
-}
-
-var_dump( $db );
-var_dump( $auth );
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
