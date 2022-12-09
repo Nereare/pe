@@ -229,6 +229,7 @@ dist
 *.scss.map
 
 ### VisualStudioCode ###
+.vscode/
 .vscode/*
 !.vscode/tasks.json
 !.vscode/launch.json
