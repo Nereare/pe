@@ -7,6 +7,12 @@ session_start();
 if (is_readable("php/config.php")) {
   // Include configuration file
   require_once("php/config.php");
+
+  if (constant("PRODUCTION") && is_readable("install/")) {
+    $notInstalled = true;
+  }
+
+  // Set title
   $title = constant("INSTANCE_TITLE");
 
   // Try and connect to the database
@@ -21,7 +27,7 @@ if (is_readable("php/config.php")) {
   }
 } else {
   $notInstalled = true;
-  $title = "Grimoire";
+  $title = "PE";
 }
 
 // Load Auth and Parsedown only if installed
@@ -116,7 +122,7 @@ if (!isset($notInstalled)) {
       <nav class="navbar">
         <div class="container">
           <div class="navbar-brand">
-            <a class="navbar-item" href="./">
+            <a class="navbar-item" href="<?php echo constant("SITE_PROTOCOL"); ?>://<?php echo constant("SITE_BASEURI"); ?>">
               <img src="assets/White-Icon.svg" alt="Logo">
             </a>
             <span class="navbar-burger">
@@ -127,17 +133,22 @@ if (!isset($notInstalled)) {
           </div>
           <div class="navbar-menu">
             <div class="navbar-end">
-              <a class="navbar-item">
-                Home
-              </a>
-              <span class="navbar-item">
-                <a class="button is-info is-inverted" id="show-login-form">
-                  <span class="icon">
-                    <i class="mdi mdi-login-variant mdi-24px"></i>
-                  </span>
-                  <span>Entrar</span>
+              <?php if (true) {  // Is logged in
+              ?>
+                <!-- TODO: Logged-in menus -->
+              <?php } else { ?>
+                <a class="navbar-item">
+                  Home
                 </a>
-              </span>
+                <span class="navbar-item">
+                  <a class="button is-info is-inverted" id="show-login-form">
+                    <span class="icon">
+                      <i class="mdi mdi-login-variant mdi-24px"></i>
+                    </span>
+                    <span>Entrar</span>
+                  </a>
+                </span>
+              <?php } ?>
             </div>
           </div>
         </div>
