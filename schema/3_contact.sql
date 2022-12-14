@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS `contactform_questions` (
+  `id`      INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `time`    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `agent`   VARCHAR(128) NOT NULL,
+  `ip`      VARCHAR(45) NOT NULL,
+  `secure`  BOOLEAN NOT NULL,
+  `score`   FLOAT UNSIGNED NOT NULL,
+  `name`    VARCHAR(128),
+  `email`   VARCHAR(256),
+  `body`    MEDIUMTEXT NOT NULL,
+  PRIMARY KEY (`id`)
+);
