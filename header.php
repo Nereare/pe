@@ -35,6 +35,23 @@ if (!isset($notInstalled)) {
   $auth = new \Delight\Auth\Auth($db);
   $md   = new Parsedown();
   $md->setSafeMode(true);
+
+  /* INSECURE Create user - for testing only.
+  try {
+    $userId = $auth->registerWithUniqueUsername("igorpadoim@gmail.com", "080690", "Nereare");
+    echo 'We have signed up a new user with the ID ' . $userId;
+  } catch (\Delight\Auth\InvalidEmailException $e) {
+    die("Invalid email address." . $e->getMessage());
+  } catch (\Delight\Auth\InvalidPasswordException $e) {
+    die("Invalid password." . $e->getMessage());
+  } catch (\Delight\Auth\UserAlreadyExistsException $e) {
+    die("User already exists." . $e->getMessage());
+  } catch (\Delight\Auth\TooManyRequestsException $e) {
+    die("Too many requests." . $e->getMessage());
+  } catch (\Delight\Auth\DuplicateUsernameException $e) {
+    die("Duplicate username." . $e->getMessage());
+  }
+  */
 }
 ?>
 <!DOCTYPE html>
@@ -69,6 +86,7 @@ if (!isset($notInstalled)) {
   <script type="text/javascript" src="node_modules/simplemde/dist/simplemde.min.js" charset="utf-8"></script>
   <script type="text/javascript" src="node_modules/uuid/dist/umd/uuidv4.min.js" charset="utf-8"></script>
   <script type="text/javascript" src="js/common.js" charset="utf-8"></script>
+  <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=<?php echo constant("RECAPTCHA_KEY"); ?>&trustedtypes=true"></script>
   <?php if (isset($script)) { ?>
     <script type="text/javascript" src="js/<?php echo $script; ?>.js" charset="utf-8"></script>
   <?php } ?>
@@ -133,12 +151,29 @@ if (!isset($notInstalled)) {
           </div>
           <div class="navbar-menu">
             <div class="navbar-end">
-              <?php if (true) {  // Is logged in
+              <?php if ($auth->isLoggedIn()) {  // Is logged in
               ?>
-                <!-- TODO: Logged-in menus -->
-              <?php } else { ?>
-                <a class="navbar-item">
-                  Home
+                <a class="navbar-item" id="logout-logout">
+                  <span class="icon">
+                    <i class="mdi mdi-logout-variant"></i>
+                  </span>
+                  <span>Logout</span>
+                </a>
+                <span class="navbar-item">
+                  <a class="button is-info is-inverted">
+                    <span class="icon">
+                      <i class="mdi mdi-account mdi-24px"></i>
+                    </span>
+                    <span>Perfil</span>
+                  </a>
+                </span>
+              <?php } else { // Is NOT logged in
+              ?>
+                <a class="navbar-item" href="contact.php">
+                  <span class="icon">
+                    <i class="mdi mdi-message-question"></i>
+                  </span>
+                  <span>Contato</span>
                 </a>
                 <span class="navbar-item">
                   <a class="button is-info is-inverted" id="show-login-form">
