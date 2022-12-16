@@ -1,4 +1,8 @@
 <?php
+/**
+ * Set the current page.
+ */
+$page = "home";
 require_once "header.php";
 ?>
 
