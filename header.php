@@ -3,6 +3,11 @@ require "vendor/autoload.php";
 require "php/meta.php";
 session_start();
 
+// Check if there is a $page variable set
+if (!isset($page)) {
+  $page = null;
+}
+
 // Try and reach the configuration file
 if (is_readable("php/config.php")) {
   // Include configuration file
@@ -39,7 +44,7 @@ if (!isset($notInstalled)) {
   /* INSECURE Create user - for testing only.
   try {
     $userId = $auth->registerWithUniqueUsername("igorpadoim@gmail.com", "080690", "Nereare");
-    echo 'We have signed up a new user with the ID ' . $userId;
+    echo "We have signed up a new user with the ID " . $userId;
   } catch (\Delight\Auth\InvalidEmailException $e) {
     die("Invalid email address." . $e->getMessage());
   } catch (\Delight\Auth\InvalidPasswordException $e) {
@@ -169,12 +174,6 @@ if (!isset($notInstalled)) {
                 </span>
               <?php } else { // Is NOT logged in
               ?>
-                <a class="navbar-item" href="contact.php">
-                  <span class="icon">
-                    <i class="mdi mdi-message-question"></i>
-                  </span>
-                  <span>Contato</span>
-                </a>
                 <span class="navbar-item">
                   <a class="button is-info is-inverted" id="show-login-form">
                     <span class="icon">
@@ -202,11 +201,19 @@ if (!isset($notInstalled)) {
       <nav class="tabs is-boxed is-fullwidth">
         <div class="container">
           <ul>
-            <li class="is-active">
-              <a>Overview</a>
+            <li class="<?php echo $page == "home" ? "is-active" : ""; ?>">
+              <a>Home</a>
             </li>
-            <li>
+            <li class="<?php echo $page == "foo" ? "is-active" : ""; ?>">
               <a>Modifiers</a>
+            </li>
+            <li class="<?php echo $page == "contact" ? "is-active" : ""; ?>">
+              <a href="contact.php">
+                <span class="icon">
+                  <i class="mdi mdi-message-question"></i>
+                </span>
+                <span>Contato</span>
+              </a>
             </li>
           </ul>
         </div>

@@ -15,6 +15,19 @@ $success           : $yellow-green;
 $info              : $green-blue-crayola;
 $danger            : $red-salsa;
 $warning           : $sunglow;
+// Custom variables
+$whatsapp          : #25d366;
+$whatsapp_active   : #41f082;
+$telegram          : #2aa9e8;
+$telegram_active   : #56c2f8;
+$messenger1        : #ff6968;
+$messenger2        : #a334fa;
+$messenger3        : #0695ff;
+$messenger1_active : #fd8282;
+$messenger2_active : #b356fa;
+$messenger3_active : #3ca8fa;
+$gmail             : #c71610;
+$gmail_active      : #db3a35;
 
 // Import bulma
 @import "../node_modules/bulma/bulma.sass";
@@ -27,6 +40,41 @@ input, select, option, textarea { font-family: $family-monospace; }
 
 .navbar-burger { color: $white; }
 .navbar-menu { text-align: center; }
+
+.is-whatsapp {
+  background: $whatsapp;
+  color: $white;
+  &:active, &:hover {
+    background-color: $whatsapp_active;
+    color: $white;
+  }
+}
+.is-telegram {
+  background: $telegram;
+  color: $white;
+  &:active, &:hover {
+    background-color: $telegram_active;
+    color: $white;
+  }
+}
+.is-fb-messenger {
+  background: $messenger1;
+  background: linear-gradient(215deg, $messenger1 0%, $messenger2 50%, $messenger3 100%);
+  color: $white;
+  &:active, &:hover {
+    background: $messenger1_active;
+    background: linear-gradient(215deg, $messenger1_active 0%, $messenger2_active 50%, $messenger3_active 100%);
+    color: $white;
+  }
+}
+.is-email {
+  background: $gmail;
+  color: $white;
+  &:active, &:hover {
+    background-color: $gmail_active;
+    color: $white;
+  }
+}
 
 .page-404 {
   display: block;
