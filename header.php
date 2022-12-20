@@ -58,6 +58,14 @@ if (!isset($notInstalled)) {
   }
   */
 }
+
+// Forbid access to control-panel pages if:
+// 1. Not logged-in; or
+// 2. Insuficient roles.
+if (isset($control_panel) && !$auth->isLoggedIn()) {
+  header("");
+  exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt_BR">
@@ -138,85 +146,164 @@ if (!isset($notInstalled)) {
     </section>
   <?php
     exit(0);
-  } // If it is installed, show the page
+  }
+  // If it is installed, show the page
+  if (!isset($control_panel)) {
   ?>
-  <section class="hero is-primary is-small">
-    <div class="hero-head">
-      <nav class="navbar">
-        <div class="container">
-          <div class="navbar-brand">
-            <a class="navbar-item" href="<?php echo constant("SITE_PROTOCOL"); ?>://<?php echo constant("SITE_BASEURI"); ?>">
-              <img src="assets/White-Icon.svg" alt="Logo">
-            </a>
-            <span class="navbar-burger">
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
-          </div>
-          <div class="navbar-menu">
-            <div class="navbar-end">
-              <?php if ($auth->isLoggedIn()) {  // Is logged in
-              ?>
-                <a class="navbar-item" id="logout-logout">
-                  <span class="icon">
-                    <i class="mdi mdi-logout-variant"></i>
+    <header class="hero is-primary is-small">
+      <div class="hero-head">
+        <nav class="navbar">
+          <div class="container">
+            <div class="navbar-brand">
+              <a class="navbar-item" href="<?php echo constant("SITE_PROTOCOL"); ?>://<?php echo constant("SITE_BASEURI"); ?>">
+                <img src="assets/White-Icon.svg" alt="Logo">
+              </a>
+              <span class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            </div>
+            <div class="navbar-menu">
+              <div class="navbar-end">
+                <?php if ($auth->isLoggedIn()) {  // Is logged in
+                ?>
+                  <a class="navbar-item" href="cp.php">
+                    <span class="icon">
+                      <i class="mdi mdi-folder"></i>
+                    </span>
+                    <span>Prontuário</span>
+                  </a>
+                  <a class="navbar-item" id="logout-logout">
+                    <span class="icon">
+                      <i class="mdi mdi-logout-variant"></i>
+                    </span>
+                    <span>Logout</span>
+                  </a>
+                  <span class="navbar-item">
+                    <a class="button is-info is-inverted">
+                      <span class="icon">
+                        <i class="mdi mdi-account mdi-24px"></i>
+                      </span>
+                      <span>Perfil</span>
+                    </a>
                   </span>
-                  <span>Logout</span>
-                </a>
-                <span class="navbar-item">
-                  <a class="button is-info is-inverted">
-                    <span class="icon">
-                      <i class="mdi mdi-account mdi-24px"></i>
-                    </span>
-                    <span>Perfil</span>
-                  </a>
-                </span>
-              <?php } else { // Is NOT logged in
-              ?>
-                <span class="navbar-item">
-                  <a class="button is-info is-inverted" id="show-login-form">
-                    <span class="icon">
-                      <i class="mdi mdi-login-variant mdi-24px"></i>
-                    </span>
-                    <span>Entrar</span>
-                  </a>
-                </span>
-              <?php } ?>
+                <?php } else { // Is NOT logged in
+                ?>
+                  <span class="navbar-item">
+                    <a class="button is-info is-inverted" id="show-login-form">
+                      <span class="icon">
+                        <i class="mdi mdi-login-variant mdi-24px"></i>
+                      </span>
+                      <span>Entrar</span>
+                    </a>
+                  </span>
+                <?php } ?>
+              </div>
             </div>
           </div>
-        </div>
-      </nav>
-    </div>
-
-    <div class="hero-body">
-      <div class="container has-text-centered">
-        <p class="title">
-          <?php echo $title; ?>
-        </p>
+        </nav>
       </div>
-    </div>
 
-    <div class="hero-foot">
-      <nav class="tabs is-boxed is-fullwidth">
-        <div class="container">
-          <ul>
-            <li class="<?php echo $page == "home" ? "is-active" : ""; ?>">
-              <a>Home</a>
-            </li>
-            <li class="<?php echo $page == "foo" ? "is-active" : ""; ?>">
-              <a>Modifiers</a>
-            </li>
-            <li class="<?php echo $page == "contact" ? "is-active" : ""; ?>">
-              <a href="contact.php">
-                <span class="icon">
-                  <i class="mdi mdi-message-question"></i>
-                </span>
-                <span>Contato</span>
-              </a>
-            </li>
-          </ul>
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <p class="title">
+            <?php echo $title; ?>
+          </p>
         </div>
-      </nav>
-    </div>
-  </section>
+      </div>
+
+      <div class="hero-foot">
+        <nav class="tabs is-boxed is-fullwidth">
+          <div class="container">
+            <ul>
+              <li class="<?php echo $page == "home" ? "is-active" : ""; ?>">
+                <a>Home</a>
+              </li>
+              <li class="<?php echo $page == "foo" ? "is-active" : ""; ?>">
+                <a>Modifiers</a>
+              </li>
+              <li class="<?php echo $page == "contact" ? "is-active" : ""; ?>">
+                <a href="contact.php">
+                  <span class="icon">
+                    <i class="mdi mdi-message-question"></i>
+                  </span>
+                  <span>Contato</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+  <?php } else { ?>
+    <header class="navbar is-primary" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="<?php echo constant("SITE_PROTOCOL"); ?>://<?php echo constant("SITE_BASEURI"); ?>cp.php">
+          <img src="assets/White-Icon.svg" alt="Logo">
+        </a>
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div id="navbar" class="navbar-menu">
+        <div class="navbar-end">
+          <a class="navbar-item" href="<?php echo constant("SITE_PROTOCOL"); ?>://<?php echo constant("SITE_BASEURI"); ?>">
+            <span class="icon">
+              <i class="mdi mdi-home"></i>
+            </span>
+            <span>Home</span>
+          </a>
+
+          <a class="navbar-item" href="config.php">
+            <span class="icon">
+              <i class="mdi mdi-cog"></i>
+            </span>
+            <span>Configurações</span>
+          </a>
+
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+              More
+            </a>
+
+            <div class="navbar-dropdown">
+              <a class="navbar-item">
+                About
+              </a>
+              <a class="navbar-item">
+                Jobs
+              </a>
+              <a class="navbar-item">
+                Contact
+              </a>
+              <hr class="navbar-divider">
+              <a class="navbar-item">
+                Report an issue
+              </a>
+            </div>
+          </div>
+
+          <a class="navbar-item" id="logout-logout">
+            <span class="icon">
+              <i class="mdi mdi-logout-variant"></i>
+            </span>
+            <span>Logout</span>
+          </a>
+
+          <span class="navbar-item">
+            <a class="button is-info is-inverted">
+              <span class="icon">
+                <i class="mdi mdi-account mdi-24px"></i>
+              </span>
+              <span>Perfil</span>
+            </a>
+          </span>
+        </div>
+      </div>
+    </header>
+  <?php } ?>

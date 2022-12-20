@@ -1,7 +1,12 @@
 <?php
 namespace Nereare\PE;
 
-final class Roles {
+final class RoleChecker {
+
+  /**
+   * Auth instance
+   */
+  private \Delight\Auth\Auth $auth;
 
   // Administrative Roles
   const SUPER                 = \Delight\Auth\Role::SUPER_ADMIN;
@@ -40,5 +45,19 @@ final class Roles {
    * SUPER_MODERATOR
    */
 
-  private function __construct() {}
+  public function __construct(\Delight\Auth\Auth $auth) {
+    if ($auth->isLoggedIn()) {
+      $this->auth = $auth;
+    } else {
+      $this->auth = false;
+    }
+  }
+
+  public function isPatient() {
+    if ($this->auth->hasRole(\Nereare\PE\Roles::PATIENT)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

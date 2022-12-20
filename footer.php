@@ -1,23 +1,25 @@
-    <footer class="footer pt-3 pb-4">
-      <div class="content has-text-centered">
-        <p class="mb-2">
-          <strong><?php echo $title; ?></strong>
-        </p>
-        <p class="is-size-7">
-          <a href="<?php echo constant("APP_REPO"); ?>">
-            <?php echo constant("APP_NAME"); ?>
-          </a>
-          &copy;
-          <?php echo constant("APP_YEAR"); ?>
-          <?php echo constant("APP_AUTHOR"); ?>
-          &bull;
-          Distribuido sob a
-          <a href="<?php echo constant("APP_LICENSE_URI"); ?>">
-            <?php echo constant("APP_LICENSE_NAME"); ?>
-          </a>
-        </p>
-      </div>
-    </footer>
+    <?php if (!isset($control_panel)) { ?>
+      <footer class="footer pt-3 pb-4">
+        <div class="content has-text-centered">
+          <p class="mb-2">
+            <strong><?php echo $title; ?></strong>
+          </p>
+          <p class="is-size-7">
+            <a href="<?php echo constant("APP_REPO"); ?>">
+              <?php echo constant("APP_NAME"); ?>
+            </a>
+            &copy;
+            <?php echo constant("APP_YEAR"); ?>
+            <?php echo constant("APP_AUTHOR"); ?>
+            &bull;
+            Distribuido sob a
+            <a href="<?php echo constant("APP_LICENSE_URI"); ?>">
+              <?php echo constant("APP_LICENSE_NAME"); ?>
+            </a>
+          </p>
+        </div>
+      </footer>
+    <?php } ?>
 
     <div class="modal" id="login-modal">
       <div class="modal-background"></div>
