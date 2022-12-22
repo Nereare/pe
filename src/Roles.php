@@ -8,6 +8,7 @@ final class Roles {
   const ADMIN                 = \Delight\Auth\Role::ADMIN;
   const RECEPTION             = \Delight\Auth\Role::COLLABORATOR;
   const ASSISTANCE            = \Delight\Auth\Role::COORDINATOR;
+  const PATIENT               = \Delight\Auth\Role::MAINTAINER;
 
   // Care Roles
   // Subjective
@@ -16,7 +17,7 @@ final class Roles {
   const EXAMINER              = \Delight\Auth\Role::AUTHOR;
   const VITAL_SIGN_OBTAINER   = \Delight\Auth\Role::CONTRIBUTOR;
   // Assessment
-  const ICD_DIAGNOSER         = \Delight\Auth\Role::EMPLOYEE;
+  const ICD_DIAGNOSER         = \Delight\Auth\Role::REVIEWER;
   const ICPC_DIAGNOSER        = \Delight\Auth\Role::DIRECTOR;
   // Plan
   const DRUG_PRESCRIBER       = \Delight\Auth\Role::SUBSCRIBER;
@@ -26,17 +27,15 @@ final class Roles {
   const PROCEDURE_DOER        = \Delight\Auth\Role::TRANSLATOR;
   const SURGERY               = \Delight\Auth\Role::CONSUMER;
 
-  // Access Role
-  const PATIENT = \Delight\Auth\Role::MAINTAINER;
-
   /*
    * Unused `\Delight\Auth\Role::*` constants:
    * --
+   * EMPLOYEE
    * DEVELOPER
    * EDITOR
    * MODERATOR
    * PUBLISHER
-   * REVIEWER
+   *
    * SUPER_MODERATOR
    */
 
