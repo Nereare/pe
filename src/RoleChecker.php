@@ -52,6 +52,37 @@ final class RoleChecker {
     }
   }
 
+  public function hasControlPanelAccess() {
+    if ($this->isInitialized() &&
+        $this->auth->hasAnyRole(\Nereare\PE\Roles::SUPER,
+                                \Nereare\PE\Roles::ADMIN,
+                                \Nereare\PE\Roles::RECEPTION,
+                                \Nereare\PE\Roles::ASSISTANCE)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  public function canManageUsers() {
+    if ($this->isInitialized() &&
+        $this->auth->hasAnyRole(\Nereare\PE\Roles::SUPER,
+                                \Nereare\PE\Roles::ADMIN)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  public function canWriteArticles() {
+    if ($this->isInitialized() &&
+        $this->auth->hasAnyRole(\Nereare\PE\Roles::SUPER,
+                                \Nereare\PE\Roles::ADMIN,
+                                \Nereare\PE\Roles::ASSISTANCE)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   private function isInitialized() {
     if ($this->auth != false && $this->auth instanceof \Delight\Auth\Auth && $this->auth->isLoggedIn()) {
       return true;
