@@ -1,4 +1,4 @@
-    <?php if (!isset($control_panel)) { ?>
+    <?php if (!isset($control_panel) && !isset($pront)) { ?>
       <footer class="footer pt-3 pb-4">
         <div class="content has-text-centered">
           <p class="mb-2">

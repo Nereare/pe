@@ -38,6 +38,7 @@ if (is_readable("php/config.php")) {
 // Load Auth and Parsedown only if installed
 if (!isset($notInstalled)) {
   $auth = new \Delight\Auth\Auth($db);
+  $user = new \Nereare\PE\RoleChecker($auth);
   $md   = new Parsedown();
   $md->setSafeMode(true);
 
@@ -148,8 +149,11 @@ if (isset($control_panel) && !$auth->isLoggedIn()) {
     exit(0);
   }
   // If it is installed, show the page
-  if (!isset($control_panel)) {
+  if (!isset($control_panel) && !isset($pront)) {
   ?>
+    <!------------------------------------->
+    <!--    MENU DAS PÁGINAS PÚBLICAS    -->
+    <!------------------------------------->
     <header class="hero is-primary is-small">
       <div class="hero-head">
         <nav class="navbar">
@@ -168,12 +172,27 @@ if (isset($control_panel) && !$auth->isLoggedIn()) {
               <div class="navbar-end">
                 <?php if ($auth->isLoggedIn()) {  // Is logged in
                 ?>
-                  <a class="navbar-item" href="cp.php">
+                  <a class="navbar-item" href="pront.php">
                     <span class="icon">
                       <i class="mdi mdi-folder"></i>
                     </span>
                     <span>Prontuário</span>
                   </a>
+                  <?php if (isset($control_panel)) { ?>
+                    <a class="navbar-item" href="pront.php">
+                      <span class="icon">
+                        <i class="mdi mdi-folder"></i>
+                      </span>
+                      <span>Prontuário</span>
+                    </a>
+                  <?php } else { ?>
+                    <a class="navbar-item" href="cp.php">
+                      <span class="icon">
+                        <i class="mdi mdi-cog"></i>
+                      </span>
+                      <span>Painel de Controle</span>
+                    </a>
+                  <?php } ?>
                   <a class="navbar-item" id="logout-logout">
                     <span class="icon">
                       <i class="mdi mdi-logout-variant"></i>
@@ -237,6 +256,9 @@ if (isset($control_panel) && !$auth->isLoggedIn()) {
       </div>
     </header>
   <?php } else { ?>
+    <!------------------------------------->
+    <!--     MENU DO SISTEMA INTERNO     -->
+    <!------------------------------------->
     <header class="navbar is-primary" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a class="navbar-item" href="<?php echo constant("SITE_PROTOCOL"); ?>://<?php echo constant("SITE_BASEURI"); ?>cp.php">
@@ -259,34 +281,12 @@ if (isset($control_panel) && !$auth->isLoggedIn()) {
             <span>Home</span>
           </a>
 
-          <a class="navbar-item" href="config.php">
+          <a class="navbar-item" href="pront.php">
             <span class="icon">
-              <i class="mdi mdi-cog"></i>
+              <i class="mdi mdi-folder"></i>
             </span>
-            <span>Configurações</span>
+            <span>Prontuário</span>
           </a>
-
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">
-              More
-            </a>
-
-            <div class="navbar-dropdown">
-              <a class="navbar-item">
-                About
-              </a>
-              <a class="navbar-item">
-                Jobs
-              </a>
-              <a class="navbar-item">
-                Contact
-              </a>
-              <hr class="navbar-divider">
-              <a class="navbar-item">
-                Report an issue
-              </a>
-            </div>
-          </div>
 
           <a class="navbar-item" id="logout-logout">
             <span class="icon">
