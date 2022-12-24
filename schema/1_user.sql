@@ -60,14 +60,19 @@ CREATE TABLE IF NOT EXISTS `users_throttling` (
 
 CREATE TABLE IF NOT EXISTS `users_profiles` (
   `id`                 INT UNSIGNED NOT NULL,
+  -- Identity
   `first_name`         VARCHAR(127) NOT NULL,
   `last_name`          VARCHAR(255) NOT NULL,
   `birth`              DATE NOT NULL,
+  -- Profession ID
   `register_type`      VARCHAR(16) NOT NULL,
   `register_location`  VARCHAR(16) NOT NULL,
   `register_id`        VARCHAR(16) NOT NULL,
+  `rqe`                VARCHAR(16) DEFAULT NULL,
+  -- Self-description
   `short_about`        TINYTEXT,
   `about`              TEXT,
+  -- Links
   `cv`                 VARCHAR(255) DEFAULT NULL,
   `homepage`           VARCHAR(255) DEFAULT NULL,
   `email`              VARCHAR(64) DEFAULT NULL,
@@ -81,5 +86,9 @@ CREATE TABLE IF NOT EXISTS `users_profiles` (
   `twitter`            VARCHAR(64) DEFAULT NULL,
   `reddit`             VARCHAR(64) DEFAULT NULL,
   `linkedin`           VARCHAR(64) DEFAULT NULL,
+  -- Control Panel preferences
+  `notes` TEXT,
+  `cp_layout` JSON NOT NULL,
   PRIMARY KEY (`id`)
 );
+

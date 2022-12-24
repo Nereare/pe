@@ -140,7 +140,9 @@ final class Profile {
                           $pinterest = null,
                           $twitter = null,
                           $reddit = null,
-                          $linkedin = null ) {
+                          $linkedin = null,
+                          $notes = "",
+                          $cp_layout = [] ) {
     try { $dob = new \DateTime($birth); }
     catch (\Exception $e) { $dob = new \DateTime(); }
     $dob = $dob->format('Y-m-d');
@@ -148,8 +150,8 @@ final class Profile {
     try {
       $stmt = $this->db->prepare(
         "INSERT INTO `users_profiles`
-          (`id`, `first_name`, `last_name`, `birth`, `register_type`, `register_location`, `register_id`, `short_about`, `about`, `cv`, `homepage`, `email`, `phone`, `facebook`, `youtube`, `instagram`, `tiktok`, `telegram`, `pinterest`, `twitter`, `reddit`, `linkedin`)
-          VALUES (:uid, :first_name, :last_name, :birth, :register_type, :register_location, :register_id, :short_about, :about, :cv, :homepage, :email, :phone, :facebook, :youtube, :instagram, :tiktok, :telegram, :pinterest, :twitter, :reddit, :linkedin)"
+          (`id`, `first_name`, `last_name`, `birth`, `register_type`, `register_location`, `register_id`, `short_about`, `about`, `cv`, `homepage`, `email`, `phone`, `facebook`, `youtube`, `instagram`, `tiktok`, `telegram`, `pinterest`, `twitter`, `reddit`, `linkedin`, `notes`, `cp_layout`)
+          VALUES (:uid, :first_name, :last_name, :birth, :register_type, :register_location, :register_id, :short_about, :about, :cv, :homepage, :email, :phone, :facebook, :youtube, :instagram, :tiktok, :telegram, :pinterest, :twitter, :reddit, :linkedin, :notes, :cp_layout)"
       );
       $stmt->bindParam(":uid", $this->uid, \PDO::PARAM_INT);
       $stmt->bindParam(":first_name", $first_name);
@@ -173,6 +175,8 @@ final class Profile {
       $stmt->bindParam(":twitter", $twitter);
       $stmt->bindParam(":reddit", $reddit);
       $stmt->bindParam(":linkedin", $linkedin);
+      $stmt->bindParam(":notes", $notes);
+      $stmt->bindParam(":cp_layout", $cp_layout);
       $stmt->execute();
 
       $this->profile_created = true;
@@ -1182,6 +1186,104 @@ final class Profile {
         $stmt = $this->db->prepare(
           "UPDATE `users_profiles` SET
             `linkedin` = :new_value
+            WHERE `id` = :uid"
+        );
+        $stmt->bindParam(":uid", $this->uid);
+        $stmt->bindParam(":new_value", $new_value);
+        $stmt->execute();
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
+  }
+
+  /**
+   * Retrieves the custom notes of the user.
+   *
+   * @throws PDOException  Thrown on query execution errors/exceptions.
+   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   *
+   * @return string        The custom notes of the user.
+   */
+  public function getNotes() {
+    // TODO: Implement cryptography - eventually
+    if ($this->profile_created) {
+      try {
+        $stmt = $this->db->prepare(
+          "SELECT `notes` FROM `users_profiles`
+            WHERE `id` LIKE :uid"
+        );
+        $stmt->bindParam(":uid", $this->uid);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        if (!$result) { return false; }
+        return $result["notes"];
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
+  }
+  /**
+   * Sets a new value to the custom notes of the user.
+   *
+   * @param  string $new_value  The new custom notes of the user.
+   *
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
+   *
+   * @return void
+   */
+  public function setNotes($new_value) {
+    // TODO: Implement cryptography - eventually
+    if ($this->profile_created) {
+      try {
+        $stmt = $this->db->prepare(
+          "UPDATE `users_profiles` SET
+            `notes` = :new_value
+            WHERE `id` = :uid"
+        );
+        $stmt->bindParam(":uid", $this->uid);
+        $stmt->bindParam(":new_value", $new_value);
+        $stmt->execute();
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to change data in."); }
+  }
+
+  /**
+   * Retrieves the layout of plugins of the user's control panel.
+   *
+   * @throws PDOException  Thrown on query execution errors/exceptions.
+   * @throws Exception     Thrown when calling this method on a user with no profile created.
+   *
+   * @return string        The layout of plugins of the user's control panel.
+   */
+  public function getCPLayout() {
+    if ($this->profile_created) {
+      try {
+        $stmt = $this->db->prepare(
+          "SELECT `cp_layout` FROM `users_profiles`
+            WHERE `id` LIKE :uid"
+        );
+        $stmt->bindParam(":uid", $this->uid);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        if (!$result) { return false; }
+        return $result["cp_layout"];
+      } catch (\PDOException $e) { throw new \PDOException("Database execution error."); }
+    } else { throw new \Exception("No profile created to get data from."); }
+  }
+  /**
+   * Sets a new value to the layout of plugins of the user's control panel.
+   *
+   * @param  string $new_value  The new layout of plugins of the user's control panel.
+   *
+   * @throws PDOException       Thrown if the SQL query is invalid, usually when you try to create duplicate entries.
+   * @throws Exception          Thrown when calling this method on a user with no profile created.
+   *
+   * @return void
+   */
+  public function setCPLayout($new_value) {
+    if ($this->profile_created) {
+      try {
+        $stmt = $this->db->prepare(
+          "UPDATE `users_profiles` SET
+            `cp_layout` = :new_value
             WHERE `id` = :uid"
         );
         $stmt->bindParam(":uid", $this->uid);
