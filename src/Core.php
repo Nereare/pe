@@ -3,7 +3,8 @@ namespace Nereare\PE;
 
 final class Core {
   private string $name;
-  private \Nereare\PE\Module $modules;
+  private array $modules;
+  private array $menus;
   private \PDO $db;
 
   public function __construct(string $name, \PDO $db) {
